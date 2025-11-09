@@ -1,4 +1,5 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useCallback } from "react";
+import type { GridApi, GridReadyEvent } from "ag-grid-community";
 
 import EmployeeGrid from "./components/EmployeeGrid";
 import InsightCards from "./components/InsightCards";
@@ -11,6 +12,8 @@ function App(): JSX.Element {
   const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(
     null
   );
+  const [gridApi, setGridApi] = useState<GridApi<Employee> | null>(null);
+  const [gridHasState, setGridHasState] = useState(false);
 
   const insights = useMemo(() => {
     const totalEmployees = employees.length;
@@ -31,6 +34,35 @@ function App(): JSX.Element {
       averagePerformance
     };
   }, [employees]);
+
+  const handleGridReady = useCallback((event: GridReadyEvent<Employee>) => {
+    setGridApi(event.api);
+  }, []);
+
+  const handleGridStateChange = useCallback(
+    ({ hasFilterOrSort }: { hasFilterOrSort: boolean }) => {
+      setGridHasState(hasFilterOrSort);
+    },
+    []
+  );
+
+  const handleQuickFilterChange = useCallback((value: string) => {
+    setQuickFilter(value);
+  }, []);
+
+  const handleResetView = useCallback(() => {
+    setQuickFilter("");
+    setSelectedEmployee(null);
+    gridApi?.setFilterModel(null);
+    gridApi?.applyColumnState({
+      defaultState: { sort: null }
+    });
+    gridApi?.setQuickFilter("");
+    gridApi?.deselectAll();
+    setGridHasState(false);
+  }, [gridApi]);
+
+  const showResetAction = quickFilter.trim().length > 0 || gridHasState;
 
   return (
     <div className="app-shell">
@@ -58,13 +90,16 @@ function App(): JSX.Element {
       <section className="grid-section">
         <Toolbar
           quickFilter={quickFilter}
-          onQuickFilterChange={setQuickFilter}
-          onClearSelection={() => setSelectedEmployee(null)}
+          onQuickFilterChange={handleQuickFilterChange}
+          onResetView={handleResetView}
+          showReset={showResetAction}
         />
         <EmployeeGrid
           employees={employees}
           quickFilter={quickFilter}
           onEmployeeSelected={setSelectedEmployee}
+          onGridReadyExternal={handleGridReady}
+          onGridStateChange={handleGridStateChange}
         />
       </section>
 

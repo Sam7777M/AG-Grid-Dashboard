@@ -1,6 +1,7 @@
 import { useMemo, useCallback } from "react";
 import type {
   ColDef,
+  GridApi,
   GridReadyEvent,
   ICellRendererParams,
   SelectionChangedEvent
@@ -16,6 +17,8 @@ interface EmployeeGridProps {
   employees: Employee[];
   quickFilter: string;
   onEmployeeSelected: (employee: Employee | null) => void;
+  onGridReadyExternal: (event: GridReadyEvent<Employee>) => void;
+  onGridStateChange: (state: { hasFilterOrSort: boolean }) => void;
 }
 
 const StatusCell = ({
@@ -41,7 +44,9 @@ const StatusCell = ({
 const EmployeeGrid = ({
   employees,
   quickFilter,
-  onEmployeeSelected
+  onEmployeeSelected,
+  onGridReadyExternal,
+  onGridStateChange
 }: EmployeeGridProps): JSX.Element => {
   const columnDefs = useMemo<ColDef<Employee>[]>(
     () => [
@@ -188,9 +193,25 @@ const EmployeeGrid = ({
     [employees]
   );
 
-  const onGridReady = useCallback((event: GridReadyEvent<Employee>) => {
-    event.api.sizeColumnsToFit();
-  }, []);
+  const evaluateGridState = useCallback(
+    (api: GridApi<Employee>) => {
+      const hasFilters = api.isAnyFilterPresent();
+      const hasSorts = api
+        .getColumnState()
+        .some((columnState) => columnState.sort != null);
+      onGridStateChange({ hasFilterOrSort: hasFilters || hasSorts });
+    },
+    [onGridStateChange]
+  );
+
+  const onGridReady = useCallback(
+    (event: GridReadyEvent<Employee>) => {
+      event.api.sizeColumnsToFit();
+      evaluateGridState(event.api);
+      onGridReadyExternal(event);
+    },
+    [evaluateGridState, onGridReadyExternal]
+  );
 
   const onSelectionChanged = useCallback(
     (event: SelectionChangedEvent<Employee>) => {
@@ -227,6 +248,8 @@ const EmployeeGrid = ({
         pinnedBottomRowData={pinnedBottomRowData}
         onGridReady={onGridReady}
         onSelectionChanged={onSelectionChanged}
+        onFilterChanged={(event) => evaluateGridState(event.api)}
+        onSortChanged={(event) => evaluateGridState(event.api)}
         overlayNoRowsTemplate="<span class='empty-state'>No employees to display</span>"
       />
     </div>

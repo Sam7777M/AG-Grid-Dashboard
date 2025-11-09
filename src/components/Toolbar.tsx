@@ -3,13 +3,15 @@ import { ChangeEvent } from "react";
 interface ToolbarProps {
   quickFilter: string;
   onQuickFilterChange: (value: string) => void;
-  onClearSelection: () => void;
+  onResetView: () => void;
+  showReset: boolean;
 }
 
 const Toolbar = ({
   quickFilter,
   onQuickFilterChange,
-  onClearSelection
+  onResetView,
+  showReset
 }: ToolbarProps): JSX.Element => {
   const handleFilterChange = (event: ChangeEvent<HTMLInputElement>) => {
     onQuickFilterChange(event.target.value);
@@ -29,13 +31,15 @@ const Toolbar = ({
         </label>
       </div>
       <div className="toolbar-actions">
-        <button
-          type="button"
-          className="secondary-button"
-          onClick={onClearSelection}
-        >
-          Clear Selection
-        </button>
+        {showReset && (
+          <button
+            type="button"
+            className="secondary-button"
+            onClick={onResetView}
+          >
+            Reset View
+          </button>
+        )}
         <a
           className="primary-button"
           href="https://www.factwise.com/"
