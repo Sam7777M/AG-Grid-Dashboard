@@ -19,14 +19,25 @@ npm run dev
 Then open `http://localhost:5173` in your browser.
 
 # Screenshots
-1) Dashboard
+1) Dashboard (with proper calculation)
 <img width="1440" height="900" alt="image" src="https://github.com/user-attachments/assets/efcfdbe4-66c3-4acb-8ad5-bbcd92bf3dbc" />
 
-2) 
+2) Filtering out result
 <img width="1440" height="900" alt="image" src="https://github.com/user-attachments/assets/8ccc49a1-f9e0-4a99-8d3f-8df3e4e4a7b8" />
 
-3) Sorting
+3) Sorting any column (in ss : name column is sorted)
 <img width="1440" height="900" alt="image" src="https://github.com/user-attachments/assets/6dd3d5dc-9ed0-4b75-b2ca-87817182874d" />
+
+4) Filteration based on column (position having senior is filtered)
+<img width="1440" height="900" alt="image" src="https://github.com/user-attachments/assets/1f4bb48a-404b-4a14-9b58-349952055bc9" />
+
+5) Card view on right hand side
+<img width="1440" height="900" alt="image" src="https://github.com/user-attachments/assets/880549c4-ddc9-46e3-824d-3988ad193a09" />
+
+6) Taking out recordes as per requirement like (10,20,50, 100) on one page (pagination also implemented)
+<img width="1440" height="900" alt="image" src="https://github.com/user-attachments/assets/b48a9a51-fd47-4fcb-a096-812fef50b7a4" />
+
+
 
 
 
