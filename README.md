@@ -40,6 +40,10 @@ Then open `http://localhost:5173` in your browser.
 
 
 
+# Link to video of this project
+https://drive.google.com/file/d/19TM3I_6pJr9pXOiNpnof4POhmDoruUtA/view?usp=drive_web
+
+
 
 ## Project Structure
 
