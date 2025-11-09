@@ -18,6 +18,18 @@ npm run dev
 
 Then open `http://localhost:5173` in your browser.
 
+# Screenshots
+1) Dashboard
+<img width="1440" height="900" alt="image" src="https://github.com/user-attachments/assets/efcfdbe4-66c3-4acb-8ad5-bbcd92bf3dbc" />
+
+2) 
+<img width="1440" height="900" alt="image" src="https://github.com/user-attachments/assets/8ccc49a1-f9e0-4a99-8d3f-8df3e4e4a7b8" />
+
+3) Sorting
+<img width="1440" height="900" alt="image" src="https://github.com/user-attachments/assets/6dd3d5dc-9ed0-4b75-b2ca-87817182874d" />
+
+
+
 ## Project Structure
 
 - `src/App.tsx`: Page layout orchestrating insights, toolbar, grid, and detail panel.
